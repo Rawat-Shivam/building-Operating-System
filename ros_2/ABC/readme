@@ -1,0 +1,58 @@
+
+
+
+To print a string on screen at specific location or to set cursor at specific location use following actions.
+
+   AH = 0x02
+   BH = page
+   DH = row
+   DL = column
+e.g:
+ mov ah,0x02         ; set value for change to cursor position
+ mov bh,0x00         ; page
+ mov dh,0x06         ; y cordinate/row
+ mov dl,0x05         ; x cordinate/col
+ int 0x10
+
+ mov si, hello_world
+ call print_string 
+
+To get input first set ax to 0x00 and call int 0x16.
+To display character which has been input,mov ah to 0x0E and call int 0x10.
+It will store char value to al register & key code to ah register.  
+
+e.g:
+inputLoop:
+ mov ax,0x00
+ int 0x16
+
+ cmp ah,0x1C             ; compare input is enter(1C) or not
+ je .inputLoop
+ cmp al,0x61            ; compare input is character 'a' or not
+ je exitLoop
+ 
+ mov ah,0x0E             ;display input char
+ int 0x10
+exitLoop:
+  ret
+  
+As described above that every sector has size only 512 bytes,
+
+
+so if you write code which is taking more than 512 bytes it will not work or assembler will give you an error. 
+So to use more memory, you need to load/read next sector into main memory.
+To load/read sectors in main memory,
+
+  AH = sector number(1,2,3 etc)[1 is already taken by our bootloader]
+  AL = number of sectors to read
+  DL = type of memory from where to read(0x80 is for hard drive/USB drive)
+  CH = cylinder number
+  DH = head number
+  CL = sector number
+  BX = memory location where to jump after loaded
+  int 0x13 = Disk I/O interrupt
+
+
+
+
+

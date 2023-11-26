@@ -1,0 +1,24 @@
+lets do some graphics addition
+
+
+[root@localhost ros_2]# vim graphics_os.asm
+
+now compile this file using nasm
+[root@localhost ros_2]# nasm -f bin graphics_os.asm -o graphics_os.bin
+
+now open it in qemu
+[root@localhost ros_2]# qemu-system-x86_64 graphics_os.bin
+
+now to boot it into USB to run on system. 
+do the same find the mount point and then umount it 
+then do 'mkfs.vfat' format of USB
+ 
+and then boot graphics_os.bin in it
+insert USB, and boot the graphics_os.bin file in it...
+using 'dd'
+and  then again turn off system insert USB ...
+turn On system...
+and select the USB in boot menu(f12) to boot from
+
+
+

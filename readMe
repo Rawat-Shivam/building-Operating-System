@@ -1,0 +1,28 @@
+/**************************
+* this is the property of shivam Rawat
+* contact: shivamondragon@gmail.com
+***************************/
+
+
+first u must have some knowldege of:
+1)linux kernel
+2) how system bootup
+3) assembly language
+4) must hands on experience on Kernel 
+5) must explore boot directory
+6) before starting making an OS read something relevent about it.
+
+
+ros_1 : contains just a simple "_ rawat_OS _" capable of loading at boot time from pendrive
+	inside this directory read the 
+		"readme" file first and then
+		"readme_execution" file
+
+
+ros_2 : contains ROS with graphics (colour)
+	inside this directory read the 
+		"readme" file first and then
+		"readme_execution" file
+
+
+

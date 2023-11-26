@@ -1,0 +1,50 @@
+
+
+[root@localhost RawatOS]# mkdir ros_1
+[root@localhost ros_1]# vim hello_world.asm 
+[root@localhost ros_1]# nasm -f bin hello_world.asm -o hello_world.bin
+
+[root@localhost ros_1]# ls
+hello_world.asm  hello_world.bin  readme_execution
+[root@localhost ros_1]# 
+
+[root@localhost ros_1]# qemu-system-x86_64 hello_world.bin 
+
+
+now we will load this in our USB 
+attach USB format it{
+	lsblk; see the mount point of it originally
+	mkfs.vfat /dev/sdb... ; ... represent the number where it is entered in /dev/sdb
+}
+
+after formatting,  lets boot our .bin file in it using 'dd' command
+
+[root@localhost ros_1]# dd if=hello_world.bin of=/dev/sdb
+sdb   sdb1  
+[root@localhost ros_1]# dd if=hello_world.bin of=/dev/sdb1 
+1+0 records in
+1+0 records out
+512 bytes copied, 0.000467869 s, 1.1 MB/s
+[root@localhost ros_1]# 
+
+
+now power off the system , 
+now power on it, go to boot (press f12 or any other as per your system boot key) 
+
+....................................
+
+now as i am going to do more with the pendrive ...so i will be removing OS from it 
+if u wan to run this OS again ...do:
+now we will load this in our USB
+attach USB format it{
+        lsblk; see the mount point of it originally
+        mkfs.vfat /dev/sdb... ; ... represent the number where it is entered in /dev/sdb
+}
+
+after formatting,  lets boot our .bin file in it using 'dd' command
+[root@localhost ros_1]# dd if=hello_world.bin of=/dev/sdb1
+
+and switch off the system  then again plug in USB and boot it from boot menu
+
+
+

@@ -1,0 +1,83 @@
+
+
+
+Introduction
+
+Writing an operating system is the most complicated task in the world of programming.
+
+The first part of operating system is the Bootloader.
+Bootloader is a piece of program that runs before any operating system is running.
+it is used to boot other operating systems, usually each operating system has a set of bootloaders specific for it.
+Bootloaders usually contain several ways to boot the OS kernel and also contain commands for debugging and/or modifying the kernel environment.
+
+We will create 3 stage OS. First is to just display message on the screen with colors, second is to take input from user, and third for drawing.
+The bootloaders are generally written in 16-bit assembly(also called Real mode), then the bits can be extended to 32-bit(Protected mode).
+So the bootloaders must be written in 16-bit assembly.
+Before you move to next, you must have some knowledge about 16-bit assembly language.
+
+
+----------------------------------------------------------------
+
+[bits 16] : This line tells the assember you are working in 16-bit real mode.
+                  it will convert assembly data to 16-bit binary form.
+
+[org 0x7c00] : This is assember directive. 0x7c00 is the memory location where BIOS will load us.
+
+xor ax,ax
+mov ds,ax
+mov es,ax
+mov bx,0x8000
+
+First setting the registers to zero such as ax,ds,es which we will used further .
+Then we will copy memory location 0x8000 to bx register 
+because we want to perform operations/instructions because we are loaded at 0x7c00 memory location.
+we need memory location above it.
+
+
+hello_world db  'Hello World!',13,0  :  this line defines the string with label hello_world, 
+                                                                  where 13 is New line and 0 is end of string.
+  
+mov si, hello_world
+call print_string
+
+Pointing first character of hello_world string to source index(si) register and then call print_string function.
+Copying 0x0E to ah register.
+this will tell to interrupt handler that take value/ASCII character from al & print it using int 0x10.
+  
+   AH = 0x0E
+   AL = character
+   BH = page
+   BL = color (graphics mode)
+   int 0x10
+
+.repeat_next_char : Label for continue to loop until end of string occurs.
+
+lodsb :  This instruction loads the first character from si to al register using ASCII code.
+
+Then we will compare whether al contains 0 or not,if not then print it and jump to loop, 
+otherwise jump to .done_print. 
+    
+int 0x10  :  This is BIOS video interrupt which takes char value from al register & print it.   
+
+times (510 - ($ - $$)) db 0x00  :  A boot sector always be a 512 byte. starting with address 0x00.
+                                                     because on hard drive,there are only 512 bytes of sectors.
+
+dw 0xAA55    :  This is the magic number of bootable device. 
+                           This line is boot signature that makes our code to bootable code.
+                           it defines word 0xAA & 0x55.
+                          These are last two bytes of our first sector.
+                          because of this number,BIOS loads us at 0x7c00 location when computer starts.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
